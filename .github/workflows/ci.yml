@@ -1,5 +1,4 @@
 name: CI
-
 on:
   push:
     branches: [main]
@@ -7,12 +6,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
   build:
@@ -26,25 +19,8 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn lint
       - run: yarn test
+      - run: yarn validate-operators
       - run: yarn build
         env:
-          # Custom domain (validatorbeat.com) — root deploy, so BASE_PATH is empty.
-          NEXT_PUBLIC_SITE_URL: https://validatorbeat.com
-          NEXT_PUBLIC_BASE_PATH: ""
-      - name: Upload Pages artifact
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: out
-
-  deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+          NEXT_PUBLIC_SITE_URL: https://adihus.github.io/validator-beat
+          NEXT_PUBLIC_BASE_PATH: /validator-beat
