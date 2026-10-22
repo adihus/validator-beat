@@ -1,16 +1,16 @@
 # ValidatorBeat + ValOS: Experimental integration fork
 
-> **Experimental fork, not the official ValidatorBeat service.** This is [adihus/validator-beat](https://github.com/adihus/validator-beat), forked from [ObolNetwork/validator-beat](https://github.com/ObolNetwork/validator-beat) to demonstrate how **ValOS self-assessment and assurance pathways** could be integrated into a broader Ethereum validator security platform. Original ValidatorBeat was built by **Obol in partnership with Lido**. Neither the fork nor its proposed pathways represent an endorsed Obol, Lido, or ValOS certification product.
+> **Experimental fork, not the official ValidatorBeat service.** This is forked from [ObolNetwork/validator-beat](https://github.com/ObolNetwork/validator-beat) to demonstrate how **ValOS self-assessment and assurance pathways** could be integrated into a broader Ethereum validator security platform.
 
 ## Purpose
 
-The original [ValidatorBeat](https://validatorbeat.com/) asks six resilience questions, generates a six-slice pizza and a Stage 0–2 result, and provides a shareable URL. This fork explores how to go further:
+This fork of the original [ValidatorBeat](https://validatorbeat.com/) explores how to substantially and meaningfully integrate ValOS into ValidatorBeat, and proposes areas to extend ValidatorBeat:
 
 1. **Public operator registry:** discoverable operator profiles with clearly labelled self-reported and independently assessed evidence.
-2. **ValOS assessment pathways:** proposed *ValOS Essential* (working label “ValOS 1”) and *ValOS Comprehensive* (“ValOS 2”), based on the official, versioned ValOS controls. No new qualification is formally approved yet.
+2. **Self-certified ValOS assessment pathways:** proposed *ValOS Essential* (working label “ValOS 1”) and *ValOS Comprehensive* (“ValOS 2”), based on the official, versioned ValOS controls. No new qualification is formally approved yet.
 3. **Disclosure choices:** minimal (attributed result and scope), summary (pizza plus selected category information), and full safe disclosure (relevant non-sensitive answers). Privacy choice does not change the assessment result.
 4. **Scoped badge pathway:** operators could voluntarily publish an attributable, dated ValOS **SELF-ASSESSED** statement. This is distinct from independent external assurance. Badge eligibility, issuance and revocation require future governance approval.
-5. **Multi-standard support:** ValOS is the first proposed standards adapter, not the whole platform. Other recognised standards may be integrated with their own applicability, evidence and permission requirements.
+5. **Multi-standard support so ValidatorBeat remains standards-agnostic:** ValOS is the first proposed standards adapter. Other recognised standards may be integrated with their own applicability, evidence and permission requirements.
 6. **Future independent evidence:** independent assessor results and monitoring data could appear alongside operator declarations, with provenance made explicit.
 
 The proposed pathway is:
