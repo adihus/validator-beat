@@ -1,0 +1,11 @@
+# EXAMPLE ONLY: never publish this in data/operators/
+# Public registration is subject to operator authorisation and editorial review.
+slug: sample-operator
+name: Sample Operator
+description: Fictional example showing the public declaration format.
+website: https://example.org
+identityStatus: unverified
+validatorBeat:
+  shareCode: GYYGGY
+  assessmentDate: "2026-10-22"
+valos: []
