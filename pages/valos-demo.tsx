@@ -1,7 +1,8 @@
 import { useMemo, useState } from "react";
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { SiteHeader } from "@components/layout/SiteHeader";
 import { SiteFooter } from "@components/layout/SiteFooter";
+import NextLink from "next/link";
 
 type Pathway = "lite" | "full";
 type Answer = "yes" | "partial" | "no" | "na";
@@ -33,7 +34,7 @@ const outline: CSSProperties = { ...btn, background:"transparent", border:"1px s
 const small: CSSProperties = { fontSize:12, letterSpacing:".08em", textTransform:"uppercase", color:"var(--theme-brand)", fontWeight:700 };
 function addMonths(date: Date, n: number) { const d = new Date(date); const day = d.getUTCDate(); d.setUTCDate(1); d.setUTCMonth(d.getUTCMonth()+n); const end = new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,0)).getUTCDate(); d.setUTCDate(Math.min(day,end)); return d.toISOString().slice(0,10); }
 function calculate(answers: Answer[]) {const applicable=answers.filter(a=>a!=="na");const score=applicable.length?Math.round(applicable.reduce((s,a)=>s+(a==="yes"?1:a==="partial"?.5:0),0)/applicable.length*100):0;return {score,rating:score>=85?"A":score>=70?"B":score>=50?"C":"D"};}
-function Chip({children}:{children:React.ReactNode}) {return <span style={{border:"1px solid var(--theme-border-strong)",borderRadius:99,padding:"5px 10px",fontSize:12,display:"inline-block"}}>{children}</span>;}
+function Chip({children}:{children:ReactNode}) {return <span style={{border:"1px solid var(--theme-border-strong)",borderRadius:99,padding:"5px 10px",fontSize:12,display:"inline-block"}}>{children}</span>;}
 function MockPizza(){const colors=["#3a9e80","#cf9a3a","#3a9e80","#c46044","#3a9e80","#cf9a3a"];return <svg viewBox="0 0 220 220" style={{width:"100%",maxWidth:230}} aria-label="Example six-slice Validator Beat resilience pizza">{colors.map((c,i)=>{const a=(-90+i*60)*Math.PI/180,b=(-90+(i+1)*60)*Math.PI/180;return <path key={i} d={"M110 110 L"+(110+94*Math.cos(a))+" "+(110+94*Math.sin(a))+" A94 94 0 0 1 "+(110+94*Math.cos(b))+" "+(110+94*Math.sin(b))+" Z"} fill={c} stroke="var(--theme-surface-page)" strokeWidth="3"/>;})}<circle cx="110" cy="110" r="27" fill="var(--theme-surface-card)"/><text x="110" y="114" textAnchor="middle" fill="var(--theme-text-primary)" fontSize="12" fontWeight="bold">BEAT</text></svg>;}
 export default function ValOSDemo(){
   const [screen,setScreen]=useState<"landing"|"assessment"|"results"|"directory"|"profile">("landing");
@@ -51,7 +52,6 @@ export default function ValOSDemo(){
   const [filter,setFilter]=useState("all");
   const indices=pathway==="lite"?[0,2,4,6,8,10]:QUESTIONS.map((_,i)=>i);
   const result=useMemo(()=>calculate(indices.map(i=>answers[i]||"no")),[answers,pathway]);
-  const completed=indices.every(i=>answers[i]);
   const records=[...DEMO,...history.filter(b=>b.listed && (!badge||b.id===badge.id))];
   const directory=records.filter(r=>(r.operator.toLowerCase().includes(search.toLowerCase()))&&(filter==="all"||r.pathway===filter));
   const reset=(p:Pathway)=>{setPathway(p);setAnswers({});setStep(0);setScreen("assessment");};
@@ -59,9 +59,9 @@ export default function ValOSDemo(){
     if(!/^0x[a-fA-F0-9]{40}$/.test(wallet)){alert("Enter a 42-character Ethereum wallet address (0x plus 40 hex characters). This demo does not connect or verify wallet ownership.");return;}
     const now=new Date(),issued=now.toISOString().slice(0,10);
     const entry:Badge={id:"DEMO-"+Math.random().toString(16).slice(2,12).toUpperCase(),operator:operator.trim()||"Unnamed Operator",wallet,pathway,rating:result.rating,score:result.score,issued,expires:addMonths(now,6),disclosure,listed,answers:indices.map(i=>answers[i]!),supersedes:badge?.id};
-    setBadge(entry);setHistory(prev=>[entry,...prev]);setScreen("profile");
+    setBadge(entry);setSelected(null);setHistory(prev=>[entry,...prev]);setScreen("profile");
   };
-  const box=(children:React.ReactNode,style:CSSProperties={})=><section style={{...panel,...style}}>{children}</section>;
+  const box=(children:ReactNode,style:CSSProperties={})=><section style={{...panel,...style}}>{children}</section>;
   const scoreTone=(r:string)=>r==="A"?"#3a9e80":r==="B"?"#cf9a3a":"#c46044";
   return <><SiteHeader/><main id="main-content" style={{maxWidth:1140,margin:"0 auto",padding:"48px 24px 100px",minHeight:"70vh"}}>
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12,marginBottom:24}}>
@@ -75,7 +75,7 @@ export default function ValOSDemo(){
     {screen==="landing"&&<>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:32,alignItems:"center",marginBottom:40}}>
         <div><div style={small}>Two complementary ways to assess your setup</div><h1 style={{fontSize:"clamp(36px,5vw,56px)",lineHeight:1.06,letterSpacing:"-.03em",margin:"18px 0"}}>Know your validator. Prove your progress.</h1><p style={{...muted,fontSize:17,lineHeight:1.65}}>Start with Validator Beat's six-slice resilience pizza, then go deeper with a ValOS operational security self-assessment. Choose how much you share with the ecosystem.</p><button style={btn} onClick={()=>reset("lite")}>Start ValOS assessment →</button></div>
-        <div style={{...panel,textAlign:"center",background:"var(--theme-surface-panel)"}}><MockPizza/><h3>Validator Beat resilience check</h3><p style={muted}>Six questions · Existing tool preserved</p><a href="/assess/" style={{color:"var(--theme-brand)",fontWeight:700}}>Open resilience assessment →</a></div>
+        <div style={{...panel,textAlign:"center",background:"var(--theme-surface-panel)"}}><MockPizza/><h3>Validator Beat resilience check</h3><p style={muted}>Six questions · Existing tool preserved</p><NextLink href="/assess/" style={{color:"var(--theme-brand)",fontWeight:700}}>Open resilience assessment →</NextLink></div>
       </div>
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(280px,1fr))",gap:18}}>
         {(["lite","full"] as Pathway[]).map(p=>box(<><div style={small}>VALOS {p.toUpperCase()}</div><h2 style={{fontSize:26,margin:"12px 0"}}>{p==="lite"?"A lighter first step":"The deeper security review"}</h2><p style={{...muted,minHeight:60}}>{p==="lite"?"Six illustrative questions across core security practices. A fast route to your first self-assessed badge.":"Twelve illustrative questions for a more detailed look at your operational controls and resilience."}</p><p style={{fontWeight:700}}>{p==="lite"?"6":"12"} example questions · Self-assessed</p><button style={btn} onClick={()=>reset(p)}>Choose {p==="lite"?"Lite":"Full"} →</button></>,{height:"100%",boxSizing:"border-box"}))}
