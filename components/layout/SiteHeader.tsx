@@ -129,6 +129,7 @@ export function SiteHeader({ contentWidth = 1140 }: SiteHeaderProps) {
             How it works
           </Box>
           <TopNavLink href={OPERATORS_PATH}>Operators</TopNavLink>
+          <TopNavLink href="/valos-demo/">ValOS assessment</TopNavLink>
           <TopNavLink href={COST_PATH}>Cost of failure</TopNavLink>
           <TopNavLink href={METHODOLOGY_PATH}>Methodology</TopNavLink>
           <Box
